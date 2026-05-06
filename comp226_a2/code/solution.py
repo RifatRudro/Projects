@@ -8,11 +8,6 @@ import backtrader as bt
 # TASK 1 – Download data & create BackTrader feed
 # ──────────────────────────────────────────────────────────────────────────────
 def task_1(ticker_symbol, start_date, end_date):
-    """
-    Download trading data using yfinance and return a bt.feeds.PandasData object.
-    The 'close' column is mapped to the Adjusted Close price (falls back to Close
-    if Adj Close is unavailable).
-    """
     raw = yf.download(ticker_symbol, start=start_date, end=end_date,
                       auto_adjust=False, progress=False)
 
@@ -20,9 +15,18 @@ def task_1(ticker_symbol, start_date, end_date):
     if isinstance(raw.columns, pd.MultiIndex):
         raw.columns = [col[0] for col in raw.columns]
 
+    # Ensure all required columns exist
+    for col in ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']:
+        if col not in raw.columns:
+            # Fallback or initialization if missing
+            raw[col] = 0.0
+
     # Use Adj Close as Close (with fallback)
     if 'Adj Close' in raw.columns:
         raw['Close'] = raw['Adj Close']
+
+    # Re-order to exactly match the required ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume'] order
+    raw = raw[['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']]
 
     feed = bt.feeds.PandasData(
         dataname=raw,
@@ -35,14 +39,10 @@ def task_1(ticker_symbol, start_date, end_date):
     )
     return feed
 
-
 # ──────────────────────────────────────────────────────────────────────────────
 # TASK 2 – Create and configure a Cerebro
 # ──────────────────────────────────────────────────────────────────────────────
 def task_2(data, cash, commission, slippage_percentage):
-    """
-    Initialise a Cerebro with data, cash, commission and percentage slippage.
-    """
     cerebro = bt.Cerebro()
     cerebro.adddata(data)
     cerebro.broker.setcash(cash)

@@ -81,7 +81,7 @@ def extra4():
     :return: final portfolio value (float)
     """
     # ── TODO: fill in your username and start date ────────────────────────────
-    start_date = "YOUR_START_DATE"   # e.g. "2017-06-14"
+    start_date = "2019-06-08"   # e.g. "2017-06-14"
     end_date   = "2024-12-31"
 
     feed1, feed2 = download_data("PEP", "KO", start_date, end_date)
@@ -214,7 +214,7 @@ def main():
     Then paste the printed start date below; end date is always 2024-12-31.
     ────────────────────────────────────────────────────────────────────────────
     """
-    start_date = "YOUR_START_DATE"   # e.g. "2017-06-14"
+    start_date = "2019-06-08"   # e.g. "2017-06-14"
     end_date   = "2024-12-31"
 
     feed1, feed2 = download_data("PEP", "KO", start_date, end_date)

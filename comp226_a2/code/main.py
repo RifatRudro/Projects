@@ -17,11 +17,11 @@ def optimize_strategy_and_run(cerebro, stake):
 
     return cerebro
 
-def main(optimization=False, stake=10):
+def main(optimization=True, stake=10):
     # Load data
 
     ticker_symbol = "TSLA"
-    start_date="2017-06-14"  # your date from get_periods.py
+    start_date="2019-06-08"  # your date from get_periods.py
     end_date = "2024-12-31"
 
     data = task_1(ticker_symbol=ticker_symbol,
